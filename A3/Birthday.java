@@ -3,49 +3,60 @@ public class Birthday {
         int n = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
         int birthday = 0;
-        long[] entering_people_counts = new long[100];
-        double[] ratio_of_count_or_less = new double[100];
+        long[] enteringPeopleCounts = new long[100];
+        double[] ratioOfCountOrLess = new double[100];
+        boolean toExit = false;
+        if (n <= 1) {
+            System.out.println(1 + "    " + 0 + "   " + 0.0);
+            toExit = true;
+        }
         for (int idx = 0; idx < trials; idx++) {
             // System.out.println("Experiment# " + idx);
-            int no_of_people = 0;
-            int dates_idx = 0;
+            if (toExit) {
+                break;
+            }
+            int noOfPeople = 0;
+            int datesIdx = 0;
             boolean found = false;
-            int[] birthdays_collection = new int[n];
+            int[] birthdaysCollection = new int[n];
             while (!found) {
-                birthday = (int)(Math.random() * (n-1));
+                birthday = (int) (Math.random() * (n));
                 found = false;
-                for(int search_idx = 0; search_idx < dates_idx; search_idx++){
-                    // System.out.println("comparing birthday: " + birthday + " with idx: " + search_idx + " having val: " + birthdays_collection[search_idx]);
-                    if (birthday == birthdays_collection[search_idx]) {
+                for (int searchIdx = 0; searchIdx < datesIdx; searchIdx++) {
+                    // System.out.println("comparing birthday: " + birthday + " with idx: " + searchIdx + " having val: " + birthdaysCollection[searchIdx]);
+                    if (birthday == birthdaysCollection[searchIdx]) {
                         found = true;
-                        entering_people_counts[no_of_people] += 1;
-                        // System.out.println("Repeating birthday: "+ birthday + " at idx: " + search_idx);
+                        enteringPeopleCounts[noOfPeople] += 1;
+                        // System.out.println("Repeating birthday: "+ birthday + " at idx: " + searchIdx);
                         break;
                     }
                 }
-                no_of_people++;
-                birthdays_collection[dates_idx] = birthday;
-                dates_idx++;
-                dates_idx = dates_idx % n;
                 if (found) {
                     break;
                 }
+                noOfPeople++;
+                birthdaysCollection[datesIdx] = birthday;
+                datesIdx++;
+                datesIdx = datesIdx % n;
 
             }
         }
-        // for (int i = 1; i <= 100; i++) {
-        //     System.out.println(i + "  " + entering_people_counts[i-1]);
+        // for (int i = 1; i <= n; i++) {
+        //     System.out.println(i + "  " + enteringPeopleCounts[i-1]);
         // }
-        int ratio_idx = -1;
+        int ratioIdx = -1;
         int temp;
         do {
-            ratio_idx++;
-            for (int i = 0; i <= ratio_idx; i++){
-                ratio_of_count_or_less[ratio_idx] += entering_people_counts[i];
+            if (toExit) {
+                break;
             }
-            temp = ratio_idx + 1;
-            ratio_of_count_or_less[ratio_idx] /= trials;
-            System.out.println(temp + "     " + entering_people_counts[ratio_idx] + "     " + ratio_of_count_or_less[ratio_idx]);
-        } while (ratio_of_count_or_less[ratio_idx] < 0.5 );
+            ratioIdx++;
+            for (int i = 0; i <= ratioIdx; i++) {
+                ratioOfCountOrLess[ratioIdx] += enteringPeopleCounts[i];
+            }
+            temp = ratioIdx + 1;
+            ratioOfCountOrLess[ratioIdx] /= trials;
+            System.out.println(temp + "     " + enteringPeopleCounts[ratioIdx] + "     " + ratioOfCountOrLess[ratioIdx]);
+        } while (ratioOfCountOrLess[ratioIdx] < 0.5);
     }
 }

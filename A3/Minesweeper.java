@@ -1,88 +1,101 @@
 public class Minesweeper {
     public static void main(String[] args) {
-        int row_size = Integer.parseInt(args[0]);
-        int col_size = Integer.parseInt(args[1]);
-        int mines_count = Integer.parseInt(args[2]);
+        int rowSize = Integer.parseInt(args[0]);
+        int colSize = Integer.parseInt(args[1]);
+        int minesCount = Integer.parseInt(args[2]);
 
-        String[][] grid = new String[row_size][col_size];
+        String[][] grid = new String[rowSize][colSize];
         // Placing Mines
-        int rand_row, rand_col;
-        for (int num_mines = 0; num_mines < mines_count; num_mines++) {
-            rand_col = (int) (Math.random() * col_size);
-            rand_row = (int) (Math.random() * row_size);
-            if(grid[rand_row][rand_col] == "*") {
-                num_mines--;
+        int randRow, randCol;
+        int numMines = 0;
+        double randVal;
+        while (numMines < minesCount) {
+            // randVal = Math.random();
+            randCol = (int) (Math.random() * colSize);
+            randRow = (int) (Math.random() * rowSize);
+            if (grid[randRow][randCol] == "*") {
+                continue;
             } else {
-                grid[rand_row][rand_col] = "*";
+                grid[randRow][randCol] = "*";
+                numMines++;
             }
         }
-        // for (int i=0;i<row_size;i++) {
-        //     for(int j=0;j<col_size;j++) {
+        // for (int i=0;i<rowSize;i++) {
+        //     for(int j=0;j<colSize;j++) {
         //         System.out.print(grid[i][j] + "  ");
         //     }
         //     System.out.println();
         // }
 
-        int neighbors_mines_count = 0;
-        for (int row_idx = 0; row_idx < row_size; row_idx++) {
-            for (int col_idx = 0; col_idx < col_size; col_idx++) {
-                if (!(grid[row_idx][col_idx] == "*")) {
-                    int up_row = row_idx - 1; int up_col = col_idx;
-                    int down_row = row_idx + 1; int down_col = col_idx;
-                    int left_row = row_idx; int left_col = col_idx - 1;
-                    int right_row = row_idx; int right_col = col_idx + 1;
-                    int left_diag_up_row = row_idx - 1; int left_diag_up_col = col_idx - 1;
-                    int left_diag_down_row = row_idx + 1; int left_diag_down_col = col_idx - 1;
-                    int right_diag_up_row = row_idx - 1; int right_diag_up_col = col_idx + 1;
-                    int right_diag_down_row = row_idx + 1; int right_diag_down_col = col_idx + 1;
-                    neighbors_mines_count = 0;
-                    if (up_row >= 0 && up_row < row_size && up_col >= 0 && up_col < col_size) {
-                        if (grid[up_row][up_col] == "*") {
-                            neighbors_mines_count++;
+        int neighborsMinesCount = 0;
+        for (int rowIdx = 0; rowIdx < rowSize; rowIdx++) {
+            for (int colIdx = 0; colIdx < colSize; colIdx++) {
+                // System.out.println(grid[rowIdx][colIdx]);
+                if (!(grid[rowIdx][colIdx] == "*")) {
+                    int upRow = rowIdx - 1;
+                    int upCol = colIdx;
+                    int downRow = rowIdx + 1;
+                    int downCol = colIdx;
+                    int leftRow = rowIdx;
+                    int leftCol = colIdx - 1;
+                    int rightRow = rowIdx;
+                    int rightCol = colIdx + 1;
+                    int leftDiagUpRow = rowIdx - 1;
+                    int leftDiagUpCol = colIdx - 1;
+                    int leftDiagDownRow = rowIdx + 1;
+                    int leftDiagDownCol = colIdx - 1;
+                    int rightDiagUpRow = rowIdx - 1;
+                    int rightDiagUpCol = colIdx + 1;
+                    int rightDiagDownRow = rowIdx + 1;
+                    int rightDiagDownCol = colIdx + 1;
+                    neighborsMinesCount = 0;
+                    if (upRow >= 0 && upRow < rowSize && upCol >= 0 && upCol < colSize) {
+                        if (grid[upRow][upCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (down_row >= 0 && down_row < row_size && down_col >= 0 && down_col < col_size) {
-                        // System.out.println(down_row+ ", "+ down_col);
-                        if (grid[down_row][down_col] == "*") {
-                            neighbors_mines_count++;
+                    if (downRow >= 0 && downRow < rowSize && downCol >= 0 && downCol < colSize) {
+                        // System.out.println(downRow+ ", "+ downCol);
+                        if (grid[downRow][downCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (left_row >= 0 && left_row < row_size && left_col >= 0 && left_col < col_size) {
-                        if (grid[left_row][left_col] == "*") {
-                            neighbors_mines_count++;
+                    if (leftRow >= 0 && leftRow < rowSize && leftCol >= 0 && leftCol < colSize) {
+                        if (grid[leftRow][leftCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (right_row >= 0 && right_row < row_size && right_col >= 0 && right_col < col_size) {
-                        if (grid[right_row][right_col] == "*") {
-                            neighbors_mines_count++;
+                    if (rightRow >= 0 && rightRow < rowSize && rightCol >= 0 && rightCol < colSize) {
+                        if (grid[rightRow][rightCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (left_diag_up_row >= 0 && left_diag_up_row < row_size && left_diag_up_col >= 0 && left_diag_up_col < col_size) {
-                        if (grid[left_diag_up_row][left_diag_up_col] == "*") {
-                            neighbors_mines_count++;
+                    if (leftDiagUpRow >= 0 && leftDiagUpRow < rowSize && leftDiagUpCol >= 0 && leftDiagUpCol < colSize) {
+                        if (grid[leftDiagUpRow][leftDiagUpCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (left_diag_down_row >= 0 && left_diag_down_row < row_size && left_diag_down_col >= 0 && left_diag_down_col < col_size) {
-                        if (grid[left_diag_down_row][left_diag_down_col] == "*") {
-                            neighbors_mines_count++;
+                    if (leftDiagDownRow >= 0 && leftDiagDownRow < rowSize && leftDiagDownCol >= 0 && leftDiagDownCol < colSize) {
+                        if (grid[leftDiagDownRow][leftDiagDownCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (right_diag_up_row >= 0 && right_diag_up_row < row_size && right_diag_up_col >= 0 && right_diag_up_col < col_size) {
-                        if (grid[right_diag_up_row][right_diag_up_col] == "*") {
-                            neighbors_mines_count++;
+                    if (rightDiagUpRow >= 0 && rightDiagUpRow < rowSize && rightDiagUpCol >= 0 && rightDiagUpCol < colSize) {
+                        if (grid[rightDiagUpRow][rightDiagUpCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    if (right_diag_down_row >= 0 && right_diag_down_row < row_size && right_diag_down_col >= 0 && right_diag_down_col < col_size) {
-                        if (grid[right_diag_down_row][right_diag_down_col] == "*") {
-                            neighbors_mines_count++;
+                    if (rightDiagDownRow >= 0 && rightDiagDownRow < rowSize && rightDiagDownCol >= 0 && rightDiagDownCol < colSize) {
+                        if (grid[rightDiagDownRow][rightDiagDownCol] == "*") {
+                            neighborsMinesCount++;
                         }
                     }
-                    grid[row_idx][col_idx] = String.valueOf(neighbors_mines_count);
+                    grid[rowIdx][colIdx] = String.valueOf(neighborsMinesCount);
                 }
-                if (col_idx == col_size - 1){
-                    System.out.print(grid[row_idx][col_idx]);
+                if (colIdx == colSize - 1) {
+                    System.out.print(grid[rowIdx][colIdx]);
                 } else {
-                    System.out.print(grid[row_idx][col_idx] + "  ");
+                    System.out.print(grid[rowIdx][colIdx] + "  ");
                 }
             }
             System.out.println();
